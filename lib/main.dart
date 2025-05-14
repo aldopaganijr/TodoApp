@@ -11,6 +11,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyHomePage());
+    return MaterialApp(
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
+      ),
+      home: MyHomePage(),
+    );
   }
 }

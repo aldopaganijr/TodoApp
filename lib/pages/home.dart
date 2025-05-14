@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -17,14 +19,21 @@ class MyHomePage extends ConsumerWidget {
     List<Todo> completedTodos =
         todos.where((todo) => todo.completed == true).toList();
     return Scaffold(
-      appBar: AppBar(title: Text('Todo App'), backgroundColor: Colors.blue),
+      appBar: AppBar(title: Text('Todo App')),
       body: ListView.builder(
         itemCount: activeTodos.length + 1,
         itemBuilder: (context, index) {
-          if (index == activeTodos.length) {
-            if (completedTodos.isEmpty)
+          if (activeTodos.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 300),
+              child: const Center(
+                child: Text('Add a todo using the button below'),
+              ),
+            );
+          } else if (index == activeTodos.length) {
+            if (completedTodos.isEmpty) {
               return Container();
-            else {
+            } else {
               return Center(
                 child: TextButton(
                   child: Text('Completed Todos'),
@@ -44,8 +53,9 @@ class MyHomePage extends ConsumerWidget {
                 children: [
                   SlidableAction(
                     onPressed:
-                        (context) =>
-                            ref.watch(todoProvider.notifier).deleteTodo(index),
+                        (context) => ref
+                            .watch(todoProvider.notifier)
+                            .deleteTodo(activeTodos[index].todoId),
                     backgroundColor: Colors.red,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     icon: (Icons.delete),
@@ -59,14 +69,22 @@ class MyHomePage extends ConsumerWidget {
                     onPressed:
                         (context) => ref
                             .watch(todoProvider.notifier)
-                            .completeTodo(index),
+                            .completeTodo(activeTodos[index].todoId),
                     backgroundColor: Colors.green,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     icon: (Icons.check),
                   ),
                 ],
               ),
-              child: ListTile(title: Text(activeTodos[index].content)),
+              child: Container(
+                margin: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                ),
+                child: ListTile(title: Text(activeTodos[index].content)),
+              ),
             );
           }
         },
@@ -78,7 +96,8 @@ class MyHomePage extends ConsumerWidget {
             context,
           ).push(MaterialPageRoute(builder: (context) => const AddTodo()));
         },
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.black,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

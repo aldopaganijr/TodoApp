@@ -13,7 +13,7 @@ class CompletedTodo extends ConsumerWidget {
     List<Todo> completedTodos =
         todos.where((todo) => todo.completed == true).toList();
     return Scaffold(
-      appBar: AppBar(title: Text('Todo App'), backgroundColor: Colors.blue),
+      appBar: AppBar(title: Text('Todo App')),
       body: ListView.builder(
         itemCount: completedTodos.length,
         itemBuilder: (context, index) {
@@ -23,15 +23,24 @@ class CompletedTodo extends ConsumerWidget {
               children: [
                 SlidableAction(
                   onPressed:
-                      (context) =>
-                          ref.watch(todoProvider.notifier).deleteTodo(index),
+                      (context) => ref
+                          .watch(todoProvider.notifier)
+                          .deleteTodo(completedTodos[index].todoId),
                   backgroundColor: Colors.red,
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   icon: (Icons.delete),
                 ),
               ],
             ),
-            child: ListTile(title: Text(completedTodos[index].content)),
+            child: Container(
+              margin: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+              ),
+              child: ListTile(title: Text(completedTodos[index].content)),
+            ),
           );
         },
       ),

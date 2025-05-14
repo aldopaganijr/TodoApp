@@ -9,7 +9,7 @@ class AddTodo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController todoController = TextEditingController();
     return Scaffold(
-      appBar: AppBar(title: Text('Add Todo'), backgroundColor: Colors.blue),
+      appBar: AppBar(title: Text('Add Todo')),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
